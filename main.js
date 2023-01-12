@@ -1,13 +1,8 @@
 function postTodo() {
-    console.log('ayyyy wassup');
+    console.log('> postTodo()');
+
+    input_value = document.getElementById("input").value;
+    console.log('the value is', input_value);
+
+    // send new todo to server
 }
-
-const submitButton = document.getElementById("submit");
-const inputField = document.getElementById("input");
-
-console.log(inputField);
-
-
-submitButton.addEventListener("click", () => {
-    console.log(`ayyyy wassup (from the event listener). ${inputField.value}`);
-})
