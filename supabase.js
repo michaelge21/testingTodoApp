@@ -1,5 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 
+let idStateTracker = 4;
+
 const supabaseUrl = "https://gmcnwlnpkqwfeczxsblt.supabase.co";
 
 const supabaseKey =
@@ -7,18 +9,32 @@ const supabaseKey =
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function getData() {
-  let { data: todo_items, error } = await supabase.from("todo_items")
+  let { data: todo_items, error } = await supabase
+  .from("todo_items")
   .select();
 
-  return {data:todo_items}
+  console.log(todo_items)
+
+  return todo_items;
 }
 
-async function addItem() {
+async function addItem(contentString) {
     const { error } = await supabase
     .from('todo_items')
-    .insert({ id: 1, content: 'Denmark' })
+    .insert({id: 5, status: "incomplete", content: `${contentString}` });
 }
 
-let button = document.querySelector("button");
+const addButton = document.querySelector(".addItem");
+const inputField = document.querySelector('input');
+const activateButton = document.querySelector(".loadAPI");
 
-button.addEventListener('click', addItem);
+
+addButton.addEventListener('click', () => {
+    addItem(inputField.value);
+    inputField.value = '';
+});
+
+activateButton.addEventListener('click', () => {
+    getData()
+    .then((response) => console.log(response.length));
+});

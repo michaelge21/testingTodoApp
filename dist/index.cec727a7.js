@@ -558,23 +558,32 @@ function hmrAccept(bundle, id) {
 
 },{}],"cmW8E":[function(require,module,exports) {
 var _supabaseJs = require("@supabase/supabase-js");
+let idStateTracker = 4;
 const supabaseUrl = "https://gmcnwlnpkqwfeczxsblt.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdtY253bG5wa3F3ZmVjenhzYmx0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzM1NjE5ODIsImV4cCI6MTk4OTEzNzk4Mn0.3vcknKjms_DMELZzIut1zyHoYztKu2rPam-lUeq5lXA";
 const supabase = (0, _supabaseJs.createClient)(supabaseUrl, supabaseKey);
 async function getData() {
     let { data: todo_items , error  } = await supabase.from("todo_items").select();
-    return {
-        data: todo_items
-    };
+    console.log(todo_items);
+    return todo_items;
 }
-async function addItem() {
+async function addItem(contentString) {
     const { error  } = await supabase.from("todo_items").insert({
-        id: 1,
-        content: "Denmark"
+        id: 5,
+        status: "incomplete",
+        content: `${contentString}`
     });
 }
-let button = document.querySelector("button");
-button.addEventListener("click", addItem);
+const addButton = document.querySelector(".addItem");
+const inputField = document.querySelector("input");
+const activateButton = document.querySelector(".loadAPI");
+addButton.addEventListener("click", ()=>{
+    addItem(inputField.value);
+    inputField.value = "";
+});
+activateButton.addEventListener("click", ()=>{
+    getData().then((response)=>console.log(response.length));
+});
 
 },{"@supabase/supabase-js":"04ZJL"}],"04ZJL":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
