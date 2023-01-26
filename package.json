@@ -1,0 +1,28 @@
+{
+  "name": "testingtodoapp",
+  "version": "1.0.0",
+  "description": "seeing if I can make supabase actually work now that I know what the hell packages are",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run": "serve index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michaelge21/testingTodoApp.git"
+  },
+  "keywords": [],
+  "author": "michael ge",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michaelge21/testingTodoApp/issues"
+  },
+  "homepage": "https://github.com/michaelge21/testingTodoApp#readme",
+  "devDependencies": {
+    "parcel": "^2.8.3"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.4.1",
+    "date-fns": "^2.29.3"
+  }
+}
