@@ -558,7 +558,17 @@ function hmrAccept(bundle, id) {
 
 },{}],"cmW8E":[function(require,module,exports) {
 var _supabaseJs = require("@supabase/supabase-js");
-let idStateTracker = 4;
+class TodoItem {
+    id;
+    status;
+    content;
+    constructor(id, status, content){
+        this.id = id;
+        this.status = status;
+        this.content = content;
+    }
+}
+let arrayOfTodos = [];
 const supabaseUrl = "https://gmcnwlnpkqwfeczxsblt.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdtY253bG5wa3F3ZmVjenhzYmx0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzM1NjE5ODIsImV4cCI6MTk4OTEzNzk4Mn0.3vcknKjms_DMELZzIut1zyHoYztKu2rPam-lUeq5lXA";
 const supabase = (0, _supabaseJs.createClient)(supabaseUrl, supabaseKey);
@@ -567,22 +577,29 @@ async function getData() {
     console.log(todo_items);
     return todo_items;
 }
-async function addItem(contentString) {
+async function addItem(todoObject) {
     const { error  } = await supabase.from("todo_items").insert({
-        id: 5,
-        status: "incomplete",
-        content: `${contentString}`
+        id: todoObject.id,
+        status: todoObject.status,
+        content: todoObject.content
     });
+}
+function generateRandomID() {
+    return Math.floor(Math.random() * 10000 - Math.random() * 10);
 }
 const addButton = document.querySelector(".addItem");
 const inputField = document.querySelector("input");
 const activateButton = document.querySelector(".loadAPI");
 addButton.addEventListener("click", ()=>{
-    addItem(inputField.value);
+    const randomID = generateRandomID();
+    const completionStatus = "incomplete";
+    const content = inputField.value;
+    const todo = new TodoItem(randomID, completionStatus, content);
+    addItem(todo);
     inputField.value = "";
 });
 activateButton.addEventListener("click", ()=>{
-    getData().then((response)=>console.log(response.length));
+    getData(inputField.value).then((response)=>console.log(response.length));
 });
 
 },{"@supabase/supabase-js":"04ZJL"}],"04ZJL":[function(require,module,exports) {

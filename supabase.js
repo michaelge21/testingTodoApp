@@ -1,6 +1,18 @@
 import { createClient } from "@supabase/supabase-js";
 
-let idStateTracker = 4;
+class TodoItem {
+  id;
+  status;
+  content;
+
+  constructor(id, status, content) {
+    this.id = id;
+    this.status = status;
+    this.content = content;
+  }
+}
+
+let arrayOfTodos = [];
 
 const supabaseUrl = "https://gmcnwlnpkqwfeczxsblt.supabase.co";
 
@@ -9,32 +21,40 @@ const supabaseKey =
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function getData() {
-  let { data: todo_items, error } = await supabase
-  .from("todo_items")
-  .select();
+  let { data: todo_items, error } = await supabase.from("todo_items").select();
 
-  console.log(todo_items)
+  console.log(todo_items);
 
   return todo_items;
 }
 
-async function addItem(contentString) {
-    const { error } = await supabase
-    .from('todo_items')
-    .insert({id: 5, status: "incomplete", content: `${contentString}` });
+async function addItem(todoObject) {
+  const { error } = await supabase.from("todo_items").insert({
+    id: todoObject.id,
+    status: todoObject.status,
+    content: todoObject.content,
+  });
+}
+
+function generateRandomID() {
+  return Math.floor(Math.random() * 10000 - Math.random() * 10);
 }
 
 const addButton = document.querySelector(".addItem");
-const inputField = document.querySelector('input');
+const inputField = document.querySelector("input");
 const activateButton = document.querySelector(".loadAPI");
 
+addButton.addEventListener("click", () => {
+  const randomID = generateRandomID();
+  const completionStatus = "incomplete";
+  const content = inputField.value;
 
-addButton.addEventListener('click', () => {
-    addItem(inputField.value);
-    inputField.value = '';
+  const todo = new TodoItem(randomID, completionStatus, content);
+
+  addItem(todo);
+  inputField.value = "";
 });
 
-activateButton.addEventListener('click', () => {
-    getData()
-    .then((response) => console.log(response.length));
+activateButton.addEventListener("click", () => {
+  getData(inputField.value).then((response) => console.log(response.length));
 });
